@@ -40,11 +40,9 @@ module Rack
       # rails 3 expects that relative_url_root is not part of
       # requested uri, this fix also expects that mapping['url']
       # contains only path (not full url)
-      uri = prefixed_uri.sub(/^#{Regexp.escape(env['SCRIPT_NAME'].to_s)}\//, '/')
+      uri = prefixed_uri.sub(/^#{Regexp.escape(env['SCRIPT_NAME'])}\//, '/')
 
-      env['REQUEST_URI'] = uri
-      env['PATH_INFO'],env['QUERYSTRING']=uri,'' unless uri.index('?')
-      env['PATH_INFO'],env['QUERYSTRING']=uri.split('?',2) if uri.index('?')
+      env['PATH_INFO'], env['QUERYSTRING'] = uri.split("?",2)
     end
 
     def rewrite_method(env, method)
